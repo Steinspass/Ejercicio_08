@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.ndpsh.ejercicio_08.Fragments.AlertsFragment;
@@ -21,7 +23,7 @@ import com.example.ndpsh.ejercicio_08.R;
  *  Created by Naim on 4/12/18
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -38,48 +40,14 @@ public class MainActivity extends AppCompatActivity {
         setFragmentsByDefault();
 
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                boolean fragmentsTransaction = false;
-                Fragment fragment = null;
+        navigationView.setNavigationItemSelectedListener(this);
 
-                //Rellenando item del navoptions con los Fragments
 
-                switch (menuItem.getItemId()) {
-                    case R.id.menu_mail:
-                        fragment = new EmailFragment();
-                        fragmentsTransaction = true;
 
-                        break;
-                    case R.id.menu_alert:
-                        fragment = new AlertsFragment();
-                        fragmentsTransaction = true;
+        Switch switchBtn = (Switch) navigationView.getMenu().findItem(R.id.switch_in_nav_options).getActionView();
+        switchBtn.setOnCheckedChangeListener(this);
 
-                        break;
-                    case R.id.menu_info:
-                        fragment = new InfoFragment();
-                        fragmentsTransaction = true;
-
-                        break;
-                    case R.id.menu_option_1:
-                        Toast.makeText(MainActivity.this, "Has clikeado en la opcion 1", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.menu_option_2:
-                        Toast.makeText(MainActivity.this, "Has clikeado en la opcion 2", Toast.LENGTH_SHORT).show();
-                        break;
-
-                }
-
-                if (fragmentsTransaction){
-                    changeFragment(fragment,menuItem);
-                    drawerLayout.closeDrawers();
-                }
-
-                return true;
-            }
-        });
     }
 
 
@@ -115,5 +83,59 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        boolean fragmentsTransaction = false;
+        Fragment fragment = null;
+
+        //Rellenando item del navoptions con los Fragments
+
+        switch (menuItem.getItemId()) {
+            case R.id.menu_mail:
+                fragment = new EmailFragment();
+                fragmentsTransaction = true;
+
+                break;
+            case R.id.menu_alert:
+                fragment = new AlertsFragment();
+                fragmentsTransaction = true;
+
+                break;
+            case R.id.menu_info:
+                fragment = new InfoFragment();
+                fragmentsTransaction = true;
+
+                break;
+            case R.id.menu_option_1:
+                Toast.makeText(MainActivity.this, "Has clikeado en la opcion 1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_option_2:
+                Toast.makeText(MainActivity.this, "Has clikeado en la opcion 2", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+        if (fragmentsTransaction){
+            changeFragment(fragment,menuItem);
+            drawerLayout.closeDrawers();
+        }
+
+        return true;
+    }
+
+
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            Toast.makeText(MainActivity.this, "The option is checked", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "The option is unchecked", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

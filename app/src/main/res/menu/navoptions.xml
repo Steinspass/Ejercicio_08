@@ -29,6 +29,15 @@
 
         </menu>
 
+        <group
+            android:id="@+id/secondGroup"
+            android:checkableBehavior="none">
+            <item xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/switch_in_nav_options"
+                android:title="Option"
+                app:actionLayout="@layout/switch_nav_options" />
+        </group>
+
 
     </item>
 
